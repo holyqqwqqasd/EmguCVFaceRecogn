@@ -49,7 +49,7 @@ public class Classifier_Train: IDisposable
      * EMGU.CV.FisherFaceRecognizer
      * EMGU.CV.EigenFaceRecognizer
      */
-    public string Recognizer_Type = "EMGU.CV.FisherFaceRecognizer";
+    public string Recognizer_Type = "EMGU.CV.LBPHFaceRecognizer";
 
     XmlDocument docu = new XmlDocument();
 
@@ -237,7 +237,7 @@ public class Classifier_Train: IDisposable
 
             if (ER.Label == -1)
             {
-                Eigen_label = "Unknown";
+                Eigen_label = "";
                 Eigen_Distance = 0;
                 return Eigen_label;
             }

@@ -33,3 +33,4 @@ C:\Users\Karen\Documents\GitHub\EmguCVFaceRecogn\EmguCVFaceRecogn\obj\Debug\Emgu
 C:\Users\Karen\Documents\GitHub\EmguCVFaceRecogn\EmguCVFaceRecogn\obj\Debug\EmguCVFaceRecogn.exe
 C:\Users\Karen\Documents\GitHub\EmguCVFaceRecogn\EmguCVFaceRecogn\obj\Debug\EmguCVFaceRecogn.pdb
 C:\Users\Karen\Documents\GitHub\EmguCVFaceRecogn\EmguCVFaceRecogn\obj\Debug\EmguCVFaceRecogn.Form1.resources
+C:\Users\Karen\Documents\GitHub\EmguCVFaceRecogn\EmguCVFaceRecogn\obj\Debug\EmguCVFaceRecogn.FormTrain.resources

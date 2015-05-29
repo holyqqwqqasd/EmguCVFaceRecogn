@@ -44,3 +44,4 @@ Temporary Items
 
 *.dll
 EmguCVFaceRecogn/bin/Debug/TrainedFaces
+EmguCVFaceRecogn/bin/Debug/_TrainedFaces

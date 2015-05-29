@@ -18,7 +18,8 @@ namespace EmguCVFaceRecogn
         Capture capture;
         CascadeClassifier cascade;
 
-        Bgr clr = new Bgr(0, 0, 255);
+        Bgr clrSuccess = new Bgr(0, 255, 0);
+        Bgr clrFailure = new Bgr(0, 0, 255);
 
         Classifier_Train train;
 
@@ -42,15 +43,26 @@ namespace EmguCVFaceRecogn
 
         void capture_ImageGrabbed(object sender, EventArgs e)
         {
-            main.Send(capture_in_main, null);
-            Thread.Sleep(250);
+            try
+            {
+                main.Send(capture_in_main, null);
+                Thread.Sleep(250);
+            }
+            catch { }
         }
 
         void capture_in_main(object state)
         {
-            Mat img = new Mat();
-            capture.Retrieve(img);
-            Image<Bgr, Byte> pic = img.ToImage<Bgr, Byte>();
+            Image<Bgr, Byte> img;
+            if (Clipboard.ContainsImage())
+            {
+                img = new Image<Bgr, Byte>((Bitmap)Clipboard.GetImage());
+            }
+            else
+            {
+                img = new Image<Bgr, Byte>(capture.Width, capture.Height);
+                capture.Retrieve(img);
+            }
             
             Rectangle[] facesDetected = cascade.DetectMultiScale(img);
             if (facesDetected.Length > 0)
@@ -61,22 +73,43 @@ namespace EmguCVFaceRecogn
                     labels[i] = String.Empty;
                     if (train.IsTrained)
                     {
-                        Image<Gray, Byte> g = train.PrepareImageToTrain(pic, facesDetected[i]);
+                        Image<Gray, Byte> g = train.PrepareImageToTrain(img, facesDetected[i]);
                         labels[i] = train.Recognise(g);
                     }
                 }
                 for (int i = 0; i < facesDetected.Length; i++)
                 {
-                    pic.Draw(facesDetected[i], clr, 2);
-                    pic.Draw(labels[i], facesDetected[i].Location, Emgu.CV.CvEnum.FontFace.HersheyPlain, 4, clr);
+                    img.Draw(facesDetected[i], (labels[i].Length > 0) ? clrSuccess : clrFailure, 2);
+                    if (labels[i].Length > 0) img.Draw(labels[i], facesDetected[i].Location, Emgu.CV.CvEnum.FontFace.HersheyPlain, 4, clrSuccess);
                 }
             }
-            pictureBox1.Image = pic.ToBitmap();
+            pictureBox1.Image = img.ToBitmap();
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             capture.Stop();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Image<Bgr, Byte> img;
+            if (Clipboard.ContainsImage()) {
+                img = new Image<Bgr, Byte>((Bitmap)Clipboard.GetImage());
+            } else {
+                img = new Image<Bgr, Byte>(capture.Width, capture.Height);
+                capture.Retrieve(img);
+            }
+
+            Rectangle[] facesDetected = cascade.DetectMultiScale(img);
+            if (facesDetected.Length > 0)
+            {
+                capture.Pause();
+                FormTrain frm = new FormTrain();
+                frm.SetFaces(train, facesDetected, img);
+                frm.ShowDialog();
+                capture.Start();
+            }
         }
     }
 }
