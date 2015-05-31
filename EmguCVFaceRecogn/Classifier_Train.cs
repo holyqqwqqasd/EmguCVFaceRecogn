@@ -350,11 +350,11 @@ public class Classifier_Train: IDisposable
         {
             case (".LBPH"):
                 Recognizer_Type = "EMGU.CV.LBPHFaceRecognizer";
-                recognizer = new LBPHFaceRecognizer(1, 8, 8, 8, 100);//50
+                recognizer = new LBPHFaceRecognizer(1, 8, 8, 8, 100); //, 50 или 100
                 break;
             case (".FFR"):
                 Recognizer_Type = "EMGU.CV.FisherFaceRecognizer";
-                recognizer = new FisherFaceRecognizer(0, 3500);//4000
+                recognizer = new FisherFaceRecognizer(0, 3500); // или 4000
                 break;
             case (".EFR"):
                 Recognizer_Type = "EMGU.CV.EigenFaceRecognizer";
@@ -500,7 +500,7 @@ public class Classifier_Train: IDisposable
                     switch (Recognizer_Type)
                     {
                         case ("EMGU.CV.LBPHFaceRecognizer"):
-                            recognizer = new LBPHFaceRecognizer(1, 8, 8, 8, 100);//50
+                            recognizer = new LBPHFaceRecognizer(1, 8, 8, 8, 100); //, 50 или 100
                             break;
                         case ("EMGU.CV.FisherFaceRecognizer"):
                             recognizer = new FisherFaceRecognizer(0, 3500);//4000
