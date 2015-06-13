@@ -35,10 +35,6 @@ namespace EmguCVFaceRecogn
             cascade = new CascadeClassifier("haarcascade_frontalface_default.xml");
 
             train = new Classifier_Train("TrainedFaces");
-
-            capture = new Capture();
-            capture.Start();
-            capture.ImageGrabbed += capture_ImageGrabbed;
         }
 
         void capture_ImageGrabbed(object sender, EventArgs e)
@@ -64,7 +60,7 @@ namespace EmguCVFaceRecogn
                 capture.Retrieve(img);
             }
             
-            Rectangle[] facesDetected = cascade.DetectMultiScale(img);
+            Rectangle[] facesDetected = cascade.DetectMultiScale(img, 1.1, 6);
             if (facesDetected.Length > 0)
             {
                 string[] labels = new string[facesDetected.Length];
@@ -88,7 +84,12 @@ namespace EmguCVFaceRecogn
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            capture.Stop();
+            if (capture != null)
+            {
+                capture.Stop();
+                capture.Dispose();
+                capture = null;
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -109,6 +110,24 @@ namespace EmguCVFaceRecogn
                 frm.SetFaces(train, facesDetected, img);
                 frm.ShowDialog();
                 capture.Start();
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (capture == null)
+            {
+                capture = new Capture(int.Parse(textBox1.Text));
+                capture.ImageGrabbed += capture_ImageGrabbed;
+                capture.Start();
+                button2.Text = "stop";
+            }
+            else
+            {
+                capture.Stop();
+                capture.Dispose();
+                capture = null;
+                button2.Text = "start";
             }
         }
     }

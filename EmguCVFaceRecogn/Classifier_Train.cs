@@ -344,6 +344,8 @@ public class Classifier_Train: IDisposable
     /// <param name="filename"></param>
     public void Load_Eigen_Recogniser(string filename)
     {
+        throw new Exception("NO SUPPORTED");
+
         //Lets get the recogniser type from the file extension
         string ext = Path.GetExtension(filename);
         switch (ext)
@@ -500,7 +502,7 @@ public class Classifier_Train: IDisposable
                     switch (Recognizer_Type)
                     {
                         case ("EMGU.CV.LBPHFaceRecognizer"):
-                            recognizer = new LBPHFaceRecognizer(1, 8, 8, 8, 100); //, 50 или 100
+                            recognizer = new LBPHFaceRecognizer(1, 8, 8, 8, 88); //, 50 или 100
                             break;
                         case ("EMGU.CV.FisherFaceRecognizer"):
                             recognizer = new FisherFaceRecognizer(0, 3500);//4000

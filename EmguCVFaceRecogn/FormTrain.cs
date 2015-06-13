@@ -62,6 +62,7 @@ namespace EmguCVFaceRecogn
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             ListItem item = (ListItem)listBox1.SelectedItem;
+            if (item == null || item.Face == null) return;
             Bitmap bmp = image.ToBitmap();
             Graphics g = Graphics.FromImage(bmp);
             g.DrawRectangle(Pens.Red, item.Face);
